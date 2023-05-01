@@ -1,0 +1,17 @@
+C:\Users\Дом\source\repos\Courses\Courses.DAL\bin\Debug\net7.0\Courses.DAL.deps.json
+C:\Users\Дом\source\repos\Courses\Courses.DAL\bin\Debug\net7.0\Courses.DAL.dll
+C:\Users\Дом\source\repos\Courses\Courses.DAL\bin\Debug\net7.0\Courses.DAL.pdb
+C:\Users\Дом\source\repos\Courses\Courses.DAL\bin\Debug\net7.0\Courses.Domain.dll
+C:\Users\Дом\source\repos\Courses\Courses.DAL\bin\Debug\net7.0\Courses.Domain.pdb
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.csproj.AssemblyReference.cache
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.AssemblyInfoInputs.cache
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.AssemblyInfo.cs
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.csproj.CopyComplete
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.dll
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\refint\Courses.DAL.dll
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.pdb
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\ref\Courses.DAL.dll
+C:\Users\Дом\source\repos\Courses\Courses.DAL\bin\Debug\net7.0\Courses.DAL.runtimeconfig.json
+C:\Users\Дом\source\repos\Courses\Courses.DAL\obj\Debug\net7.0\Courses.DAL.genruntimeconfig.cache

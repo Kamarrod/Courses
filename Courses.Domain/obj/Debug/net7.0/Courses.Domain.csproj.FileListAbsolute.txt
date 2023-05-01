@@ -1,0 +1,12 @@
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.csproj.AssemblyReference.cache
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.AssemblyInfoInputs.cache
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.AssemblyInfo.cs
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Дом\source\repos\Courses\Courses.Domain\bin\Debug\net7.0\Courses.Domain.deps.json
+C:\Users\Дом\source\repos\Courses\Courses.Domain\bin\Debug\net7.0\Courses.Domain.dll
+C:\Users\Дом\source\repos\Courses\Courses.Domain\bin\Debug\net7.0\Courses.Domain.pdb
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.dll
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\refint\Courses.Domain.dll
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\Courses.Domain.pdb
+C:\Users\Дом\source\repos\Courses\Courses.Domain\obj\Debug\net7.0\ref\Courses.Domain.dll

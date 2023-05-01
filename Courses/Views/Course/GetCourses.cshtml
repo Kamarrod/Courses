@@ -1,0 +1,38 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<Сourses.Domain.Entity.Course>
+
+@{
+    ViewData["Title"] = "Список Курсов";
+}
+
+<div class="create-course">
+    <div class="redirect-to-createcourse">
+        <a asp-controller="Course" asp-action="Save" class="btn btn-primary">
+            Создать курс
+        </a>
+    </div>
+</div>
+
+
+@if (@Model == null)
+{
+    <div align = "center">
+    <h1>На данный момент отсутствуют доступные курсы.
+        Однако, вы можете добавить свой курс.
+    </h1>
+    </div>
+}
+else
+@foreach(var course in Model)
+{
+    <div class="card w-75">
+        <div class="card-body">
+            <h5 class="card-title">@course.Name</h5>
+            <p class="card-text">
+                @course.Description
+            </p>
+            <a asp-controller="Course" asp-action="GetCourse" asp-route-Id="@course.Id" class="btn btn-primary">Перейти к курсу</a>
+        </div>
+    </div>
+}
+

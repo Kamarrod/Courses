@@ -1,0 +1,11 @@
+﻿@model Courses.Domain.ViewModules.Course.CourseViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="course">
+<h1>Теория курса</h1>
+<p>@Model.Theory</p>
+    <a asp-action="GetPracticalParts" asp-controller="PracticalPart" asp-route-courseId="@Model.Id"><button>Перейти к практике</button></a>
+</div>

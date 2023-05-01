@@ -1,0 +1,25 @@
+﻿@model Courses.Domain.ViewModules.PracticalPartViewModel
+
+@{
+    var textTitle = Model?.Id == 0 ? "Изменение данных" : "Добавление данных";
+}
+
+<form asp-action="Save" enctype="multipart/form-data" id="formSaveCar">
+    <input asp-for="Id" hidden />
+    <div asp-validation-summary="All" style="font-size:23px; font-family:Impact, serif" class="text-danger text-center"></div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.CourseId" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.CourseId">
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.Question" class="col-form-label"></label>
+            <input class="form-control" asp-for="@Model.Question" />
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.Answer" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.Answer" />
+        </div>
+    </div>
+    <button class="btn btn-primary">Отправить</button>
+</form>

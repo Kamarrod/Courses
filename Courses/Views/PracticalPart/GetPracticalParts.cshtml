@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Сourses.Domain.Entity.PracticalPart>
+
+@{
+    ViewData["Title"] = "Практическая часть";
+}
+
+<div class ="course">
+    @if (Model != null)
+    {
+        @foreach (var questions in Model)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Вопрос </h5>
+                    <p class="card-text">@questions.Question</p>
+                    <input type="text" class="form-control" id="answer1" data-question-id="@questions.Id.ToString()" data-course-id="@questions.CourseId.ToString()" placeholder="Введите ответ">
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h1>Для данного раздела пока нет вопросов</h1>
+    }
+</div>
+
+<script>
+    // добавляем обработчик события keyup для всех полей ввода ответов
+    var answerInputs = document.querySelectorAll('input[id^="answer"]');
+    answerInputs.forEach(function (input) {
+        input.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) { // если нажата клавиша Enter
+                event.preventDefault(); // отменяем стандартное поведение формы
+                var answer = input.value; // получаем значение поля ввода ответа
+                var partId = input.getAttribute('data-question-id');
+                var courseId = input.getAttribute('data-course-id');// получаем id вопроса
+                // отправляем запрос на сервер для проверки данных
+                $.ajax({
+                    url: "/PracticalPart/CheckAnswer",
+                    type: "POST",
+                    data: { partId: partId, answer: answer, courseId: courseId },
+                    success: function (result) {
+                        if (result) {
+                            input.classList.remove("is-invalid"); // удаляем класс "is-invalid" (красный цвет)
+                            input.classList.add("is-valid"); // добавляем класс "is-valid" (зеленый цвет)
+                        } else {
+                            input.classList.remove("is-valid"); // удаляем класс "is-valid" (зеленый цвет)
+                            input.classList.add("is-invalid"); // добавляем класс "is-invalid" (красный цвет)
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>

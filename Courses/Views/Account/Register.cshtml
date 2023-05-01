@@ -1,0 +1,54 @@
+﻿@*@model Courses.Domain.ViewModules.Account.RegisterViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Регистрация";
+}
+
+<form asp-controller="Account" asp-action="Register">
+    <label for="login">Логин:</label>
+    <input asp-for="Name" class="form-control textbox-dg font-weight-bold text-center" placeholder="Имя" type="text"><br><br>
+
+    <label for="password">Пароль:</label>
+    <input autocomplete="new-password" asp-for="Password" placeholder="Пароль" class="form-control textbox-dg font-weight-bold text-center" type="password"><br><br>
+
+    <label for="confirm-password">Подтверждение пароля:</label>
+    <input autocomplete="new-password" asp-for="PasswordConfirm" placeholder="Подтвердите пароль" class="form-control textbox-dg font-weight-bold text-center" type="password"><br><br>
+
+    <input type="submit" value="Зарегистрироваться">
+</form>
+<div>
+    <a class="Login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+</div>*@
+
+@model Courses.Domain.ViewModules.Account.RegisterViewModel
+<h2>Регистрация нового пользователя</h2>
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Name"></label><br />
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="PasswordConfirm"></label><br />
+        <input asp-for="PasswordConfirm" />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+    <div>
+        <input type="submit" value="Регистрация" />
+    </div>
+    <div>
+        <a class="Login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+    </div>
+</form>

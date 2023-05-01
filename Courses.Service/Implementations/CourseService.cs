@@ -10,6 +10,7 @@ using Сourses.Domain.Entity;
 using Сourses.Domain.Enum;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
+using System.Runtime.InteropServices;
 
 namespace Courses.Service.Implementations
 {
@@ -179,6 +180,34 @@ namespace Courses.Service.Implementations
             }
         }
 
+        public async Task<IBaseResponse<IEnumerable<Course>>> GetAuthorCourses(string authorId)
+        {
+            var baseResponse = new BaseResponse<IEnumerable<Course>>();
+
+            try
+            {
+                var courses = await _courseRepository.GetAll().Where(x => x.AuthorId == authorId).ToListAsync();
+
+                if (courses.Count == 0)
+                {
+                    baseResponse.Description = "Найдено 0 курсов данного автора";
+                    baseResponse.StatusCode = StatusCode.OK;
+                    return baseResponse;
+                }
+                baseResponse.Data = courses;
+                baseResponse.StatusCode = StatusCode.OK;
+                return baseResponse;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<Course>>()
+                {
+                    Description = $"[GetAuthorCurses] : {ex.Message}",
+                    StatusCode = StatusCode.InternalStatusError
+                };
+            }
+        }
+
         //public async Task<IBaseResponse<IEnumerable<PracticalPart>>> GetPracticalPart(CourseViewModel model)
         //{
         //    var baseResponse = new BaseResponse<IEnumerable<PracticalPart>>();
@@ -202,7 +231,7 @@ namespace Courses.Service.Implementations
                 }
 
                 course.Description = model.Description;
-                course.CreatedDate = model.CreatedDate;
+                course.CreatedDate = DateTime.Now;//model.CreatedDate;
                 course.AuthorId = model.AuthorId;
                 course.Theory = model.Theory;
                 course.Name = model.Name;

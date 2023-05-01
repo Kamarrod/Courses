@@ -8,6 +8,7 @@ namespace Courses.Service.Interfaces
     public interface ICourseService
     {
         Task<IBaseResponse<IEnumerable<Course>>> GetCourses();
+        Task<IBaseResponse<IEnumerable<Course>>> GetAuthorCourses(string authorId);
         Task<IBaseResponse<bool>> DeleteCourse(int id);
         Task<IBaseResponse<CourseViewModel>> CreateCourse(CourseViewModel courseViewModule);
         Task<IBaseResponse<Course>> GetCourseByName(string name);

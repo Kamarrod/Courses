@@ -1,4 +1,5 @@
-﻿using Courses.Domain.ViewModules;
+﻿using Azure;
+using Courses.Domain.ViewModules;
 using Courses.Service.Implementations;
 using Courses.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -58,16 +59,19 @@ namespace Courses.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(PracticalPartViewModel model)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 if (model.Id == 0)
                 {
                     await _practicalPartService.CreatePracticalPart(model);
+                
                 }
+                else
                 {
                     _practicalPartService.Edit(model.CourseId, model.Id, model);
                 }
-            //}
+                return View();
+            }
             return RedirectToAction("Error");
         }
 

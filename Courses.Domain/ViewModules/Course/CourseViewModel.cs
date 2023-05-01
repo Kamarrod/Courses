@@ -17,7 +17,7 @@ namespace Courses.Domain.ViewModules.Course
 
         public string AuthorId { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public string Theory { get; set; }
 

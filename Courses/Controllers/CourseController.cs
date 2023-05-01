@@ -37,6 +37,14 @@ namespace Courses.Controllers
             return RedirectToAction("Error");
         }
 
+        public async Task<IActionResult> GetAuthorCourses()
+        {
+            var response = await _courseService.GetAuthorCourses(_userManager.GetUserId(HttpContext.User));
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return View(response.Data);
+            return RedirectToAction("Error");
+        }
+
         public async Task<IActionResult> Delete(int id)
         {
             var response = await _courseService.DeleteCourse(id);

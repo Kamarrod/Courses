@@ -17,6 +17,8 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IBaseRepository<PracticalPart>, PracticalPartRepository>();
 builder.Services.AddScoped<IPracticalPartService, PracticalPartService>();
 builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+//builder.Services.AddScoped<UserManager<IdentityUser>>();
+//builder.Services.AddScoped<SignInManager<IdentityUser>>();
 ////builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
 ////builder.Services.AddScoped<IAccountService, AccountService>();
 

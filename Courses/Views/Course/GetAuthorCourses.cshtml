@@ -1,0 +1,43 @@
+﻿@using System.Security.Claims;
+@using Courses.Domain.Entity;
+@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<Сourses.Domain.Entity.Course>
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@{
+    ViewData["Title"] = "Список ваших курсов";
+}
+
+<div class="create-course">
+    <div class="redirect-to-createcourse">
+        <a asp-controller="Course" asp-action="Save" class="btn btn-primary">
+            Создать курс
+        </a>
+    </div>
+</div>
+
+
+@if (@Model == null)
+{
+    <div align="center">
+        <h1>
+            Вы еще не создавали курсы.
+        </h1>
+    </div>
+}
+else
+    @foreach (var course in Model)
+    {
+        <div class="card w-75">
+            <div class="card-body">
+                <h5 class="card-title">@course.Name</h5>
+                <p class="card-text">
+                    @course.Description
+                </p>
+                <a asp-controller="Course" asp-action="GetCourse" asp-route-Id="@course.Id" class="btn btn-primary">Перейти к курсу</a>
+                        <a asp-controller="Course" asp-action="Save" asp-route-Id="@course.Id" class="btn btn-primary">Редактировать</a>
+            </div>
+        </div>
+    }

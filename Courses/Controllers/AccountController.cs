@@ -1,8 +1,9 @@
-﻿using Courses.Domain.Entity;
+﻿using Courses.DAL.Repositories;
+using Courses.Domain.Entity;
 using Courses.Domain.ViewModules.Account;
+using Courses.Service.Implementations;
 using Courses.Service.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,17 +15,16 @@ namespace Courses.Controllers
         //private readonly IAccountService _accountService;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ICompletedPartService _completedPartService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
+                                ICompletedPartService completedPartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _completedPartService = completedPartService;
         }
 
-        //public AccountController(IAccountService accountService)
-        //{
-        //    _accountService = accountService;
-        //}
 
         [HttpGet]
         public IActionResult Register() => View();
@@ -34,13 +34,6 @@ namespace Courses.Controllers
         {
             if (ModelState.IsValid) 
             {
-                //var response = await _accountService.Register(model);
-                //if (response.StatusCode == Domain.Enum.StatusCode.OK)
-                //{
-                //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                //        new ClaimsPrincipal(response.Data));
-                //    return RedirectToAction("Index", "Home");
-                //}
                 User user = new User { Email = model.Email, UserName = model.Email, Name = model.Name};
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -71,20 +64,20 @@ namespace Courses.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var response = await _accountService.Login(model);
-                //if (response.StatusCode == Domain.Enum.StatusCode.OK)
-                //{
-                //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                //        new ClaimsPrincipal(response.Data));
-
-                //    return RedirectToAction("Index", "Home");
-                //}
-                //ModelState.AddModelError("", response.Description);
                 var result =
-            await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    // проверяем, принадлежит ли URL приложению
+                    //SortedSet<int> idPCompletedParts = new SortedSet<int>();
+                    //var listofCompletedParts = await _completedPartService.GetCompletedPartBuIdUser(_userManager.GetUserId(HttpContext.User));
+                    //if (listofCompletedParts.StatusCode == Domain.Enum.StatusCode.OK)
+                    //{
+                    //    foreach (var el in listofCompletedParts.Data)
+                    //    {
+                    //        idPCompletedParts.Add(el.PracticalPartId);
+                    //    }
+                    //    HttpContext.Session.Set("completedParts", JsonSerializer.SerializeToUtf8Bytes(idPCompletedParts));
+                    //}
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);

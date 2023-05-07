@@ -10,7 +10,7 @@ namespace Courses.Domain.Entity
     {
         public string UserId { get; set; }
 
-        public int PraticalPartId { get; set; }
+        public int PracticalPartId { get; set; }
 
     }
 }

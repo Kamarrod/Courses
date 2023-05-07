@@ -1,8 +1,10 @@
 ﻿using Azure;
+using Courses.Domain.Entity;
 using Courses.Domain.ViewModules;
 using Courses.Service.Implementations;
 using Courses.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -12,10 +14,15 @@ namespace Courses.Controllers
     public class PracticalPartController : Controller
     {
         private readonly IPracticalPartService _practicalPartService;
-
-        public PracticalPartController(IPracticalPartService practicalPartService)
+        private readonly ICompletedPartService _completedPartService;
+        private readonly UserManager<User> _userManager;
+        public PracticalPartController(IPracticalPartService practicalPartService,
+                                       ICompletedPartService completedPartService,
+                                       UserManager<User> userManager)
         {
             _practicalPartService = practicalPartService;
+            _completedPartService = completedPartService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -80,7 +87,15 @@ namespace Courses.Controllers
         {
             var response = await _practicalPartService.CheckAnswer(int.Parse(courseId), int.Parse(partId), answer );
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
-                 return response.Data;
+            {
+                if (response.Data)
+                {
+                    var createCCS = await _completedPartService.CreateComletedPart(int.Parse(partId), _userManager.GetUserId(HttpContext.User));
+                    if (createCCS.StatusCode == Domain.Enum.StatusCode.OK)
+                        return true;
+                }
+                return false;
+            }
             return false;
         }
     }

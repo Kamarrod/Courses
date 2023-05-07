@@ -17,13 +17,21 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IBaseRepository<PracticalPart>, PracticalPartRepository>();
 builder.Services.AddScoped<IPracticalPartService, PracticalPartService>();
 builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+builder.Services.AddScoped<IBaseRepository<CompletedPart>, CompletedPartsRepository>();
+builder.Services.AddScoped<ICompletedPartService, CompletedPartService>();
+builder.Services.AddScoped<IBaseRepository<CompletedCourse>, CompletedCourseRepository>();
+builder.Services.AddScoped<ICompletedCourseService, CompletedCourseService>();
 //builder.Services.AddScoped<UserManager<IdentityUser>>();
 //builder.Services.AddScoped<SignInManager<IdentityUser>>();
 ////builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
 ////builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -31,6 +39,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
         options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
     });
+
+builder.Services.AddLogging(builder =>
+{
+    builder.AddConsole();
+    builder.AddDebug();
+});
 
 builder.Services.AddAuthentication();
 // Add services to the container.
@@ -48,6 +62,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 

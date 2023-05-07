@@ -9,6 +9,7 @@ namespace Courses.Domain.Enum
     public enum StatusCode
     {
         CoursesNotFound = 10,
+        CompletedPartNotFound = 11,
         CourseNotFound = 100,
         OK = 200,
         InternalStatusError = 500

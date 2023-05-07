@@ -85,8 +85,8 @@ namespace Courses.DAL
             modelBuilder.Entity<CompletedPart>(entity =>
             {
                 entity.ToTable("CompletedPart");
-                entity.HasKey(c => new { c.UserId, c.PraticalPartId });
-                entity.Property(e => e.PraticalPartId).IsRequired();
+                entity.HasKey(c => new { c.UserId, c.PracticalPartId });
+                entity.Property(e => e.PracticalPartId).IsRequired();
                 entity.Property(e => e.UserId).IsRequired();
             });
         }

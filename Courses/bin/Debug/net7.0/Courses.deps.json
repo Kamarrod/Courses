@@ -14,6 +14,7 @@
           "Microsoft.EntityFrameworkCore": "7.0.5",
           "Microsoft.EntityFrameworkCore.Design": "7.0.5",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.5",
+          "Microsoft.EntityFrameworkCore.Tools": "7.0.5",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "7.0.5"
         },
         "runtime": {
@@ -83,13 +84,14 @@
       },
       "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Http.Features": "2.2.0",
+          "Microsoft.AspNetCore.Http.Features": "5.0.17",
           "System.Text.Encodings.Web": "7.0.0"
         }
       },
-      "Microsoft.AspNetCore.Http.Features/2.2.0": {
+      "Microsoft.AspNetCore.Http.Features/5.0.17": {
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "7.0.0"
+          "Microsoft.Extensions.Primitives": "7.0.0",
+          "System.IO.Pipelines": "6.0.3"
         }
       },
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore/7.0.5": {
@@ -1006,6 +1008,11 @@
             "assemblyVersion": "7.0.5.0",
             "fileVersion": "7.0.523.16503"
           }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Tools/7.0.5": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Design": "7.0.5"
         }
       },
       "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
@@ -2382,6 +2389,7 @@
       },
       "Courses.Domain/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "5.0.17",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.5",
           "Microsoft.EntityFrameworkCore.Relational": "7.0.5"
         },
@@ -2450,12 +2458,12 @@
       "path": "microsoft.aspnetcore.http.abstractions/2.2.0",
       "hashPath": "microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Http.Features/2.2.0": {
+    "Microsoft.AspNetCore.Http.Features/5.0.17": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ziFz5zH8f33En4dX81LW84I6XrYXKf9jg6aM39cM+LffN9KJahViKZ61dGMSO2gd3e+qe5yBRwsesvyqlZaSMg==",
-      "path": "microsoft.aspnetcore.http.features/2.2.0",
-      "hashPath": "microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512"
+      "sha512": "sha512-3jG2xS+dx8DDCGV/F+STdPTg89lX3ao3dF/VEPvJaz3wzBIjuadipTtYNEXDIVuOPZwb6jdmhrX9jkzOIBm5cw==",
+      "path": "microsoft.aspnetcore.http.features/5.0.17",
+      "hashPath": "microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore/7.0.5": {
       "type": "package",
@@ -2680,6 +2688,13 @@
       "sha512": "sha512-cUJqCiamT0EvpKNgZEV5fqNv2MyVfKNgOPQfFINqHiIKHOYrS0nTCUJP97+UuG0JIIrP792/PwnuNjbekImtBg==",
       "path": "microsoft.entityframeworkcore.sqlserver/7.0.5",
       "hashPath": "microsoft.entityframeworkcore.sqlserver.7.0.5.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Tools/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OV/PUGBVSbQVd2daTeXoMBoao2qtfBgT2TuaYo48xRYUS2gH++f8OFiZc6zwASqkMKgs1/t5uVlxgKl18m/1Fw==",
+      "path": "microsoft.entityframeworkcore.tools/7.0.5",
+      "hashPath": "microsoft.entityframeworkcore.tools.7.0.5.nupkg.sha512"
     },
     "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
       "type": "package",

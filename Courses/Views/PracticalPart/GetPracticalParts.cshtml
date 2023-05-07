@@ -1,7 +1,14 @@
-﻿@model IEnumerable<Сourses.Domain.Entity.PracticalPart>
-
+﻿@using System.Text.Json;
+@model IEnumerable<Сourses.Domain.Entity.PracticalPart>
+@inject IHttpContextAccessor HttpContextAccessor
+    
 @{
     ViewData["Title"] = "Практическая часть";
+    var completedPartsBytes = HttpContextAccessor.HttpContext.Session.Get("completedParts");
+    SortedSet<int> completedParts = null;
+    if (completedPartsBytes != null)
+        completedParts = JsonSerializer.Deserialize<SortedSet<int>>(completedPartsBytes);
+
 }
 
 <div class ="course">
@@ -9,13 +16,26 @@
     {
         @foreach (var questions in Model)
         {
-            <div class="card">
-                <div class="card-body">
+            if (completedParts != null && completedParts.Contains(questions.Id))
+            {
+                <div class="card">
+                    <div class="card-body">
                     <h5 class="card-title">Вопрос </h5>
                     <p class="card-text">@questions.Question</p>
-                    <input type="text" class="form-control" id="answer1" data-question-id="@questions.Id.ToString()" data-course-id="@questions.CourseId.ToString()" placeholder="Введите ответ">
+                        <input type="text" class="form-control is-valid" placeholder="@questions.Answer" disabled>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Вопрос </h5>
+                    <p class="card-text">@questions.Question</p>
+                        <input type="text" class="form-control" id="answer1" data-question-id="@questions.Id.ToString()" data-course-id="@questions.CourseId.ToString()" placeholder="Введите ответ">
+                    </div>
+                </div>
+            }
         }
     }
     else

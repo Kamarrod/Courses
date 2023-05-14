@@ -13,6 +13,7 @@ namespace Courses.Service.Interfaces
         Task<IBaseResponse<CourseViewModel>> CreateCourse(CourseViewModel courseViewModule);
         Task<IBaseResponse<Course>> GetCourseByName(string name);
         Task<IBaseResponse<CourseViewModel>> GetCourse(int id);
+        Task<IBaseResponse<IEnumerable<Course>>> GetCoursesWithSimilarName(string name);
 
         Task<IBaseResponse<Course>> Edit(int id, CourseViewModel model);
 

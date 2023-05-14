@@ -16,19 +16,20 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IBaseRepository<PracticalPart>, PracticalPartRepository>();
 builder.Services.AddScoped<IPracticalPartService, PracticalPartService>();
-builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+//builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
 builder.Services.AddScoped<IBaseRepository<CompletedPart>, CompletedPartsRepository>();
 builder.Services.AddScoped<ICompletedPartService, CompletedPartService>();
 builder.Services.AddScoped<IBaseRepository<CompletedCourse>, CompletedCourseRepository>();
 builder.Services.AddScoped<ICompletedCourseService, CompletedCourseService>();
-//builder.Services.AddScoped<UserManager<IdentityUser>>();
 //builder.Services.AddScoped<SignInManager<IdentityUser>>();
+//builder.Services.AddScoped < UserManager<IdentityUser>();
+
 ////builder.Services.AddScoped<IBaseRepository<Profile>, ProfileRepository>();
 ////builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity< User, IdentityRole >()
     .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 

@@ -10,13 +10,16 @@
     ViewData["Title"] = "Список Курсов";
 }
 
-<div class="create-course">
-    <div class="redirect-to-createcourse">
-        <a asp-controller="Course" asp-action="GetAuthorCourses" class="btn btn-primary">
-            Ваши авторские курсы
-        </a>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="create-course">
+        <div class="redirect-to-createcourse">
+            <a asp-controller="Course" asp-action="GetAuthorCourses" class="btn btn-primary">
+                Ваши авторские курсы
+            </a>
+        </div>
     </div>
-</div>
+}
 
 
 @if (@Model == null)

@@ -11,6 +11,7 @@ using Сourses.Domain.Enum;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace Courses.Service.Implementations
 {
@@ -78,6 +79,34 @@ namespace Courses.Service.Implementations
                 };
             }
         }
+
+
+        public async Task<IBaseResponse<IEnumerable<Course>>> GetCoursesWithSimilarName(string name)
+        {
+            var baseResponse = new BaseResponse<IEnumerable<Course>>();
+
+            try
+            {
+                var course = await _courseRepository.GetAll().Where(x => x.Name.ToLower().Contains(name.ToLower())).ToListAsync();
+                if (course == null)
+                {
+                    baseResponse.Description = "Курс не найден";
+                    baseResponse.StatusCode = StatusCode.OK;
+                    return baseResponse;
+                }
+                baseResponse.StatusCode = StatusCode.OK;
+                baseResponse.Data = course;
+                return baseResponse;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<Course>>()
+                {
+                    Description = $"[GetCourseWithSimilarName] : {ex.Message}",
+                    StatusCode = StatusCode.InternalStatusError
+                };
+            }
+        }
         public async Task<IBaseResponse<Course>> GetCourseByName(string name) // возможно лучше возвращать IEnumerable
         {
             var baseResponse = new BaseResponse<Course>();
@@ -85,7 +114,7 @@ namespace Courses.Service.Implementations
             try
             {
                 //var course = await _courseRepository.GetByNameAsync(name);
-                var course = await _courseRepository.GetAll().FirstOrDefaultAsync(x => x.Name == name);
+                var course = await _courseRepository.GetAll().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
                 if (course == null)
                 {
                     baseResponse.Description = "Курс не найден";

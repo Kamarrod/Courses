@@ -1,13 +1,18 @@
 ﻿using Courses.DAL.Interfaces;
 using Courses.Domain.Entity;
+using Courses.Domain.Helpers;
 using Courses.Domain.ViewModules.Course;
 using Courses.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using Сourses.Domain.Enum;
 
 namespace Courses.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
@@ -37,11 +42,21 @@ namespace Courses.Controllers
             return RedirectToAction("Error");
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetAuthorCourses()
         {
             var response = await _courseService.GetAuthorCourses(_userManager.GetUserId(HttpContext.User));
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
                 return View(response.Data);
+            return RedirectToAction("Error");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCoursesWithSimilarName(string name)
+        {
+            var response = await _courseService.GetCoursesWithSimilarName(name);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return View( "GetCourses", response.Data);
             return RedirectToAction("Error");
         }
 
@@ -56,17 +71,26 @@ namespace Courses.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Save(int id)
+        [CheckAuthorId(nameof(AuthorId), nameof(UserId))]
+        public async Task<IActionResult> Save(int id, string AuthorId, string UserId)
         {
-            if (id == 0)
+            CheckAuthorIdAttribute checkAuthorId = new CheckAuthorIdAttribute(nameof(AuthorId), nameof(UserId));
+            if (!checkAuthorId.CompareStrings())
             {
-                return View();
+                if (id == 0)
+                {
+                    return View();
+                }
+
+                var response = await _courseService.GetCourse(id);
+                if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                    return View(response.Data);
+                return RedirectToAction("Error");
             }
 
-            var response = await _courseService.GetCourse(id);
-            if (response.StatusCode == Domain.Enum.StatusCode.OK)
-                return View(response.Data);
             return RedirectToAction("Error");
+
+           
         }
 
         [HttpPost]
@@ -74,9 +98,9 @@ namespace Courses.Controllers
         {
             model.TypeCourse = "3";
             model.AuthorId = _userManager.GetUserId(HttpContext.User);
-
-            //if (ModelState.IsValid)
-            //{
+            ModelState.Remove("Id");
+            if (ModelState.IsValid)
+            {
                 if (model.Id == 0)
                 {
                     await _courseService.CreateCourse(model);
@@ -85,8 +109,9 @@ namespace Courses.Controllers
                 {
                     _courseService.Edit(model.Id, model);
                 }
-            //}
-            return RedirectToAction("GetCourses");
+                return RedirectToAction("GetCourses");
+            }
+            return RedirectToAction("Error");
         }
 
         //[HttpGet]

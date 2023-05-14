@@ -1,11 +1,13 @@
 ﻿using Azure;
 using Courses.Domain.Entity;
 using Courses.Domain.ViewModules;
+using Courses.Service;
 using Courses.Service.Implementations;
 using Courses.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
@@ -43,7 +45,7 @@ namespace Courses.Controllers
             return RedirectToAction("Error");
         }
 
-        //[HttpDelete]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int courseId, int number)
         {
             var response = await _practicalPartService.DeletePracticalPart(courseId, number);
@@ -64,8 +66,9 @@ namespace Courses.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(PracticalPartViewModel model)
+        public async Task<IActionResult> Save(PracticalPartViewModel model )
         {
+            ModelState.Remove("Id");
             if (ModelState.IsValid)
             {
                 if (model.Id == 0)
@@ -77,7 +80,7 @@ namespace Courses.Controllers
                 {
                     _practicalPartService.Edit(model.CourseId, model.Id, model);
                 }
-                return View();
+                return RedirectToAction("GetAuthorCourses", "Course");
             }
             return RedirectToAction("Error");
         }
@@ -92,7 +95,22 @@ namespace Courses.Controllers
                 {
                     var createCCS = await _completedPartService.CreateComletedPart(int.Parse(partId), _userManager.GetUserId(HttpContext.User));
                     if (createCCS.StatusCode == Domain.Enum.StatusCode.OK)
+                    {
+                        //SessionCompletedPartUpdate.SessionCompletedPartUpdateMethod(partId);
+                        var completedPartsBytes = HttpContext.Session.Get("completedParts");
+                        SortedSet<int> completedParts = null;
+                        if (completedPartsBytes != null)
+                        {
+                            completedParts = JsonSerializer.Deserialize<SortedSet<int>>(completedPartsBytes);
+                        }
+                        else
+                        {
+                            completedParts = new SortedSet<int>();
+                        }
+                        completedParts.Add(int.Parse(partId));
+                        HttpContext.Session.Set("completedParts", JsonSerializer.SerializeToUtf8Bytes(completedParts));
                         return true;
+                    }
                 }
                 return false;
             }

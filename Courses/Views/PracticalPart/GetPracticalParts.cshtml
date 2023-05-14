@@ -63,6 +63,7 @@
                         if (result) {
                             input.classList.remove("is-invalid"); // удаляем класс "is-invalid" (красный цвет)
                             input.classList.add("is-valid"); // добавляем класс "is-valid" (зеленый цвет)
+                            input.setAttribute("disabled", true);
                         } else {
                             input.classList.remove("is-valid"); // удаляем класс "is-valid" (зеленый цвет)
                             input.classList.add("is-invalid"); // добавляем класс "is-invalid" (красный цвет)

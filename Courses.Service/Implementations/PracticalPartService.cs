@@ -140,7 +140,6 @@ namespace Courses.Service.Implementations
 
                 if (practics.Count == 0)
                 {
-                    //baseResponse.Data = practics;
                     baseResponse.Description = "Найдено 0 элементов";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;

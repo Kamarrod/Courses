@@ -22,6 +22,8 @@ body {
 }
 
 .Acontainer {
+    min-width: 70%;
+    margin-left:15%;
     min-height: calc(100vh - 181px);
     padding-bottom: 180px;
 }

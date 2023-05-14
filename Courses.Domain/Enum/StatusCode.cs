@@ -10,6 +10,7 @@ namespace Courses.Domain.Enum
     {
         CoursesNotFound = 10,
         CompletedPartNotFound = 11,
+        PracticsNotFound = 12,
         CourseNotFound = 100,
         OK = 200,
         InternalStatusError = 500

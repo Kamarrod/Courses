@@ -37,7 +37,8 @@ else
                     @course.Description
                 </p>
                 <a asp-controller="Course" asp-action="GetCourse" asp-route-Id="@course.Id" class="btn btn-primary">Перейти к курсу</a>
-                        <a asp-controller="Course" asp-action="Save" asp-route-Id="@course.Id" class="btn btn-primary">Редактировать</a>
+                <a asp-controller="Course" asp-action="Save" asp-route-AuthorId="@course.AuthorId" asp-route-UserId="@UserManager.GetUserId(Context.User)" asp-route-Id="@course.Id" class="btn btn-primary">Редактировать</a>
+                <a asp-controller="PracticalPart" asp-action="Save" asp-route-Id="@course.Id" asp-route-courseId="@course.Id" class="btn btn-primary">Добавить вопрос</a>
             </div>
         </div>
     }

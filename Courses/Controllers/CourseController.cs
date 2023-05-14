@@ -60,28 +60,36 @@ namespace Courses.Controllers
             return RedirectToAction("Error");
         }
 
+
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _courseService.DeleteCourse(id);
-            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+            if (_courseService.GetCourse(id).Result.Data.AuthorId == _userManager.GetUserId(HttpContext.User) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
             {
-                return View(response.Data);
+                var response = await _courseService.DeleteCourse(id);
+                if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                {
+                    return View("GetAuthorCourses");
+                }
+                return RedirectToAction("Error");
             }
             return RedirectToAction("Error");
         }
 
         [HttpGet]
-        [CheckAuthorId(nameof(AuthorId), nameof(UserId))]
-        public async Task<IActionResult> Save(int id, string AuthorId, string UserId)
+        //[CheckAuthorId(nameof(AuthorId), nameof(UserId))]
+        public async Task<IActionResult> Save(int id)/*, string AuthorId, string UserId)*/
         {
-            CheckAuthorIdAttribute checkAuthorId = new CheckAuthorIdAttribute(nameof(AuthorId), nameof(UserId));
-            if (!checkAuthorId.CompareStrings())
-            {
-                if (id == 0)
-                {
-                    return View();
-                }
+            //CheckAuthorIdAttribute checkAuthorId = new CheckAuthorIdAttribute(nameof(AuthorId), nameof(UserId));
 
+            
+
+            if (id == 0)
+            {
+                return View();
+            }
+
+            if(id != 0 && _userManager.GetUserId(HttpContext.User) == _courseService.GetCourse(id).Result.Data.AuthorId)
+            {
                 var response = await _courseService.GetCourse(id);
                 if (response.StatusCode == Domain.Enum.StatusCode.OK)
                     return View(response.Data);
@@ -96,8 +104,8 @@ namespace Courses.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(CourseViewModel model)
         {
-            model.TypeCourse = "3";
             model.AuthorId = _userManager.GetUserId(HttpContext.User);
+            ModelState.Remove("AuthorId");
             ModelState.Remove("Id");
             if (ModelState.IsValid)
             {
@@ -113,6 +121,16 @@ namespace Courses.Controllers
             }
             return RedirectToAction("Error");
         }
+
+
+        [HttpPost]
+
+        public JsonResult GetTypes()
+        {
+            var types = _courseService.GetTypes();
+            return Json(types.Data);
+        }
+
 
         //[HttpGet]
         //public async Task<IActionResult> GetPracticalPart(CourseViewModel model)

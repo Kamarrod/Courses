@@ -7,12 +7,17 @@ namespace Сourses.Domain.Enum
     public enum TypeCourse
     {
         [Display(Name = "IT")]
-        It = 0,
+        It = 1,
         [Display(Name = "Математика")]
-        Math = 1,
+        Math = 2,
         [Display(Name = "Физика")]
-        Physics = 2,
+        Physics = 3,
         [Display(Name = "Прочие")]
-        Other = 3
+        Other = 4,
+        [Display(Name = "История")]
+        History = 5,
+        [Display(Name = "География")]
+        Geography = 6,
+       
     }
 }

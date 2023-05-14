@@ -1,17 +1,12 @@
 ﻿using Courses.DAL.Interfaces;
-using Courses.Domain.Entity;
 using Courses.Domain.Enum;
 using Courses.Domain.Response;
 using Courses.Domain.ViewModules.Course;
 using Courses.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Сourses.Domain.Entity;
 using Сourses.Domain.Enum;
-using System.Net.Http;
-using Microsoft.AspNetCore.Http;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+using Courses.Domain.Helpers;
 
 namespace Courses.Service.Implementations
 {
@@ -67,6 +62,7 @@ namespace Courses.Service.Implementations
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
+                baseResponse.StatusCode = StatusCode.OK;
                 await _courseRepository.Delete(course);
                 return baseResponse;
             }
@@ -267,7 +263,7 @@ namespace Courses.Service.Implementations
                 course.PracticalParts = await _courseRepository.GetPracticalParts(id);
                 //course.TypeCourse = (TypeCourse)Convert.ToInt32(model.TypeCourse);
                 course.PracticalParts = model.PracticalParts.ToList();
-
+                baseResponse.StatusCode = StatusCode.OK;
                 await _courseRepository.Update(course);
                 return baseResponse;
             }
@@ -277,6 +273,29 @@ namespace Courses.Service.Implementations
                 {
                     Description = $"[Edit] : {ex.Message}",
                     StatusCode = StatusCode.InternalStatusError
+                };
+            }
+        }
+
+        public BaseResponse<Dictionary<int, string>> GetTypes()
+        {
+            try
+            {
+                var types = ((TypeCourse[])Enum.GetValues(typeof(TypeCourse)))
+                    .ToDictionary(k => (int)k, t => t.GetDisplayName());
+
+                return new BaseResponse<Dictionary<int, string>>()
+                {
+                    Data = types,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Dictionary<int, string>>()
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalStatusError,
                 };
             }
         }

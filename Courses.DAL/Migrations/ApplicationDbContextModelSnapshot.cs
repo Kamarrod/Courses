@@ -40,10 +40,10 @@ namespace Courses.DAL.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PraticalPartId")
+                    b.Property<int>("PracticalPartId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "PraticalPartId");
+                    b.HasKey("UserId", "PracticalPartId");
 
                     b.ToTable("CompletedPart", (string)null);
                 });

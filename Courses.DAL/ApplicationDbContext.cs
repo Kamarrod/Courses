@@ -24,6 +24,8 @@ namespace Courses.DAL
 
         public DbSet<CompletedCourse> CompletedCourse { get; set; }
 
+        public DbSet<SubscribedCourse> SubscribedCourse { get; set; }
+
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

@@ -10,8 +10,9 @@ namespace Courses.Service.Interfaces
 {
     public interface ICompletedPartService
     {
-        Task<IBaseResponse<bool>> CreateComletedPart(int idPart, string idUser);
-        Task<IBaseResponse<List<CompletedPart>>> GetCompletedPartBuIdUser(string idUser);
+        Task<IBaseResponse<bool>> CreateComletedPart(int idPart, string idUser, int idCourse);
+        Task<IBaseResponse<List<CompletedPart>>> GetCompletedPartByIdUser(string idUser);
+        Task<IBaseResponse<int>> GetCountCompletedPartsCourse(int courseId, string idUser);
 
     }
 }

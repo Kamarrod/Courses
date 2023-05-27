@@ -24,6 +24,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Дом/source/repos/Courses/Courses/Views/ActionWithYouTube/ShowVideo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0aW9uV2l0aFlvdVR1YmVcU2hvd1ZpZGVvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Дом/source/repos/Courses/Courses/Views/CompletedCourse/GetAllCompletedCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxldGVkQ291cnNlXEdldEFsbENvbXBsZXRlZENvdXJzZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Дом/source/repos/Courses/Courses/Views/Course/GetAuthorCourses.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXEdldEF1dGhvckNvdXJzZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -38,6 +46,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Дом/source/repos/Courses/Courses/Views/Course/Save.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXFNhdmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Дом/source/repos/Courses/Courses/Views/Error/GetError.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcR2V0RXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Дом/source/repos/Courses/Courses/Views/Home/Index.cshtml]
@@ -78,6 +90,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Дом/source/repos/Courses/Courses/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Дом/source/repos/Courses/Courses/Views/SubscribedCourse/GetAllSubscribedCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3Vic2NyaWJlZENvdXJzZVxHZXRBbGxTdWJzY3JpYmVkQ291cnNlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Дом/source/repos/Courses/Courses/Views/_ViewImports.cshtml]

@@ -8,15 +8,11 @@ using System.Threading.Tasks;
 
 namespace Сourses.Domain.Entity
 {
-    //[PrimaryKey(nameof(CourseId), nameof(Number))]
     public class PracticalPart
     {
         public int Id { get; set; }
         public int CourseId { get; set; }
-        //public int Id { get; set; }
-
         public string Question { get; set; }
-
         public string Answer { get; set; }
     }
 }

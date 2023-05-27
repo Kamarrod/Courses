@@ -11,31 +11,26 @@ namespace Courses.DAL.Repositories
     public class CompletedCourseRepository : IBaseRepository<CompletedCourse>
     {
         private readonly ApplicationDbContext _db;
-
         public CompletedCourseRepository(ApplicationDbContext db)
         {
             _db = db;
         }
-
         public async Task<bool> Create(CompletedCourse entity)
         {
             await _db.CompletedCourse.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;
         }
-
         public async Task<bool> Delete(CompletedCourse entity)
         {
             _db.CompletedCourse.Remove(entity);
             await _db.SaveChangesAsync();
             return true;
         }
-
         public IQueryable<CompletedCourse> GetAll()
         {
             return _db.CompletedCourse;
         }
-
         public async Task<CompletedCourse> Update(CompletedCourse entity)
         {
             _db.CompletedCourse.Update(entity);

@@ -17,6 +17,18 @@
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
+      "Id": "C:\\Users\\Дом\\source\\repos\\Courses\\Courses\\wwwroot\\lib\\Images\\egypt.jpg",
+      "PackagePath": "staticwebassets\\lib\\Images\\egypt.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Дом\\source\\repos\\Courses\\Courses\\wwwroot\\lib\\Images\\globe.jpg",
+      "PackagePath": "staticwebassets\\lib\\Images\\globe.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Дом\\source\\repos\\Courses\\Courses\\wwwroot\\lib\\Images\\html.jpg",
+      "PackagePath": "staticwebassets\\lib\\Images\\html.jpg"
+    },
+    {
       "Id": "C:\\Users\\Дом\\source\\repos\\Courses\\Courses\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },

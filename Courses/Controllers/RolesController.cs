@@ -10,34 +10,26 @@ namespace Courses.Controllers
     [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
-
         RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
-
         public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
         }
-
         public ActionResult Index()
         {
             return View(_roleManager.Roles.ToList());
         }
-
-        // GET: RolesController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
-
-        // GET: RolesController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: RolesController/Create
         [HttpPost]
         async public Task<IActionResult> Create(string name)
         {
@@ -58,14 +50,11 @@ namespace Courses.Controllers
             }
             return View(name);
         }
-
-        // GET: RolesController/Edit/5
         public async Task<IActionResult> Edit(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
                 ChangeRoleViewModel model = new ChangeRoleViewModel
@@ -80,11 +69,8 @@ namespace Courses.Controllers
 
             return NotFound();
         }
-
         public IActionResult UserList() => View(_userManager.Users.ToList());
   
-
-        // POST: RolesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         async public Task<IActionResult> Edit(string userId, List<string> roles)
@@ -106,14 +92,11 @@ namespace Courses.Controllers
 
             return NotFound();
         }
-
-        // GET: RolesController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: RolesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

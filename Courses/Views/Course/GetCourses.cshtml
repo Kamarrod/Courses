@@ -1,17 +1,57 @@
 ﻿@using System.Security.Claims;
 @using Courses.Domain.Entity;
+@using Courses.Service.Interfaces;
 @using Microsoft.AspNetCore.Identity;
+@using System.Text.Json;
 @model IEnumerable<Сourses.Domain.Entity.Course>
+@inject IHttpContextAccessor HttpContextAccessor
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-
+@inject ICompletedCourseService _completedCourseService
+@inject ISubscribedCourseService _subscribedCourseService
+@inject ICompletedPartService _completedPartService
+@inject IPracticalPartService _practicalPartService
 
 @{
+    string userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
     ViewData["Title"] = "Список Курсов";
+    var completedCourseList = _completedCourseService
+                             .GetCompletedCourses(userId)
+                             .Result
+                             .Data;
+    var subscribedCourseList = _subscribedCourseService
+                               .GetSubscribedCourse(userId)
+                               .Result
+                               .Data;
+    var completedCourse = new SortedSet<int>();
+    var subscribedCourse = new SortedSet<int>();
+    if (subscribedCourseList != null)
+        foreach (var el in subscribedCourseList)
+            subscribedCourse.Add(el.Id);
+    if (completedCourseList != null)
+        foreach (var el in completedCourseList)
+            completedCourse.Add(el.Id);
 }
 
-@if (User.Identity.IsAuthenticated)
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form action="@Url.Action("GetCoursesWithSimilarName", "Course")" method="get" class="form-inline">
+                <div class="input-group w-100">
+                    <input type="text" class="form-control" placeholder="Search..." name="name">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated &&  (User.IsInRole("User") || User.IsInRole("Moderator")))
 {
+    
+    <div class="button-container">
     <div class="create-course">
         <div class="redirect-to-createcourse">
             <a asp-controller="Course" asp-action="GetAuthorCourses" class="btn btn-primary">
@@ -19,8 +59,24 @@
             </a>
         </div>
     </div>
-}
 
+    <div class="create-course">
+        <div class="redirect-to-createcourse">
+            <a asp-controller="SubscribedCourse" asp-action="GetAllSubscribedCourses" asp-route-userId="@UserManager.GetUserId(HttpContextAccessor.HttpContext.User)" class="btn btn-primary">
+                Продолжить обучение
+            </a>
+        </div>
+    </div>
+
+    <div class="create-course">
+        <div class="redirect-to-createcourse">
+            <a asp-controller="CompletedCourse" asp-action="GetAllCompletedCourses" asp-route-userId="@UserManager.GetUserId(HttpContextAccessor.HttpContext.User)" class="btn btn-primary">
+               Завершенные курсы 
+            </a>
+        </div>
+    </div></div>
+    
+}
 
 @if (@Model == null)
 {
@@ -31,25 +87,110 @@
     </div>
 }
 else
+{
+    long counter = 0;
+
 @foreach(var course in Model)
 {
-    <div class="card w-75">
-        <div class="card-body">
-            <h5 class="card-title">@course.Name</h5>
-            <p class="card-text">
-                @course.Description
-            </p>
-            <a asp-controller="Course" asp-action="GetCourse" asp-route-Id="@course.Id" class="btn btn-primary">Перейти к курсу</a>
-              @*  @if (SignInManager.IsSignedIn(User))
-                {
-                    var user = await UserManager.GetUserAsync(User);
-                    var userId = user.Id;
-                    if (course.AuthorId == userId)
+        if (((completedCourse != null && !completedCourse.Contains(course.Id)) || completedCourse == null) )
+        {
+            counter++;
+            <div class="card-container">
+            <div class="card w-100">
+                    <div class="card-header bg-light text-right">
+                        <small>Type: @course.TypeCourse</small>
+                    </div>
+                <div class="card-body">
+                    <h5 class="card-title">@course.Name</h5>
+                    <p class="card-text">
+                        @course.Description
+                    </p>
+                    @if ((subscribedCourse != null && !subscribedCourse.Contains(course.Id)) || subscribedCourse == null) 
                     {
-                        <a asp-controller="Course" asp-action="Save" asp-route-Id="@course.Id" class="btn btn-primary">Редактировать</a>
+                            <a asp-controller="SubscribedCourse" asp-action="SubscribeOnCoursе" asp-route-Id="@course.Id" class="btn btn-primary">Начать обучение</a>
+                         
                     }
-                }*@
-            </div>
-    </div>
-}
+                    else 
+                    {
+                        <a asp-controller="Course" asp-action="GetCourse" asp-route-Id="@course.Id" class="btn btn-primary">Перейти к курсу</a>
+                        
+                    }
+                    @if(User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                    {
+                       <a asp-controller="Course" asp-action="Delete" asp-route-Id="@course.Id" class="btn btn-primary">Удалить</a>
 
+                    }
+                        @if ((subscribedCourse != null && subscribedCourse.Contains(course.Id)) && _practicalPartService.GetPracticalParts(course.Id).Result.Data.Count() != 0)
+                        {
+                            <div class="progress">
+                                <div class="progress-bar" 
+                                data-Ccount="@_completedPartService.GetCountCompletedPartsCourse(course.Id, userId).Result.Data" 
+                                data-Pcount="@_practicalPartService.GetPracticalParts(course.Id).Result.Data.Count()" 
+                                role="progressbar"
+                                aria-valuenow="0" 
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        }
+                </div>
+
+            </div>
+            </div>
+        }
+    }
+    if (counter == 0)
+    {
+        <h1>На данный момент вы прошли все доступные на сайте курсы</h1>
+    }
+}
+<script>
+    var progressBar = document.querySelector('.progress-bar');
+    var completedCount = progressBar.dataset.Ccount;
+    var practicalCount = progressBar.dataset.Pcount;
+    // Функция для обновления прогресс-бара
+    function updateProgressBar(progress) {
+      progressBar.style.width = progress + '%';
+      progressBar.setAttribute('aria-valuenow', progress);
+    }
+
+    if (practicalCount != 0)
+        updateProgressBar(((double)completedCount * 100/ practicalCount));
+     else (updateProgressBar(0);
+</script>
+
+<style>
+
+    .button-container {
+        margin-top: 2%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .create-course {
+        flex-grow: 1;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .card-container {
+        margin-top:1%;
+        position:relative;
+    }
+
+    .container {
+        margin-top:2%;
+    }
+
+    .progress {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 10px;
+        margin: 0;
+    }
+
+    .progress-bar {
+        height: 100%;
+    }
+</style>

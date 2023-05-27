@@ -43,9 +43,26 @@ namespace Courses.DAL.Migrations
                     b.Property<int>("PracticalPartId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "PracticalPartId");
 
                     b.ToTable("CompletedPart", (string)null);
+                });
+
+            modelBuilder.Entity("Courses.Domain.Entity.SubscribedCourse", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "CourseId");
+
+                    b.ToTable("SubscribedCourse", (string)null);
                 });
 
             modelBuilder.Entity("Courses.Domain.Entity.User", b =>
@@ -279,6 +296,10 @@ namespace Courses.DAL.Migrations
 
                     b.Property<int>("TypeCourse")
                         .HasColumnType("int");
+
+                    b.Property<string>("VideoURL")
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
 
                     b.HasKey("Id");
 

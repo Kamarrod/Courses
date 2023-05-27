@@ -1,0 +1,17 @@
+﻿@using Courses.Controllers;
+@model string;
+@{
+    ViewData["Title"] = "Видео к курсу";
+}
+<div class="video-container">
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="@Model" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+
+
+<style>
+    .video-container {
+        margin-top: 3%;
+    }
+</style>

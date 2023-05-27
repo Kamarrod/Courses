@@ -8,9 +8,6 @@
     <input asp-for="Id" hidden />
     <div asp-validation-summary="All" style="font-size:23px; font-family:Impact, serif" class="text-danger text-center"></div>
     <div class="row">
-       @* <div class="form-group col-md-4">
-            <input class="form-control" asp-for="@Model.CourseId">
-        </div>*@
         <input type="hidden" class="form-control" asp-for="@Model.CourseId">
         <div class="form-group col-md-4">
             <label asp-for="@Model.Question" class="col-form-label"></label>

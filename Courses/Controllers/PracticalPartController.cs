@@ -1,30 +1,31 @@
-﻿using Azure;
-using Courses.Domain.Entity;
+﻿using Courses.Domain.Entity;
 using Courses.Domain.ViewModules;
-using Courses.Service;
-using Courses.Service.Implementations;
 using Courses.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 
 namespace Courses.Controllers
 {
+    [Authorize]
     public class PracticalPartController : Controller
     {
         private readonly IPracticalPartService _practicalPartService;
         private readonly ICompletedPartService _completedPartService;
+        private readonly ISubscribedCourseService _subscribedCourseService;
         private readonly UserManager<User> _userManager;
+        private readonly ICompletedCourseService _completedCourseService;
         public PracticalPartController(IPracticalPartService practicalPartService,
                                        ICompletedPartService completedPartService,
-                                       UserManager<User> userManager)
+                                       UserManager<User> userManager,
+                                       ISubscribedCourseService subscribedCourseService,
+                                       ICompletedCourseService completedCourseService)
         {
             _practicalPartService = practicalPartService;
             _completedPartService = completedPartService;
             _userManager = userManager;
+            _subscribedCourseService = subscribedCourseService;
+            _completedCourseService = completedCourseService;
         }
 
         [HttpGet]
@@ -88,33 +89,38 @@ namespace Courses.Controllers
         [HttpPost]
         public async Task<bool> CheckAnswer(string partId, string courseId, string answer)
         {
-            var response = await _practicalPartService.CheckAnswer(int.Parse(courseId), int.Parse(partId), answer );
+            var response = await _practicalPartService.CheckAnswer(int.Parse(courseId), int.Parse(partId), answer);
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
             {
                 if (response.Data)
                 {
-                    var createCCS = await _completedPartService.CreateComletedPart(int.Parse(partId), _userManager.GetUserId(HttpContext.User));
+                    var createCCS = await _completedPartService.CreateComletedPart(int.Parse(partId), _userManager.GetUserId(HttpContext.User), int.Parse(courseId));
                     if (createCCS.StatusCode == Domain.Enum.StatusCode.OK)
                     {
-                        //SessionCompletedPartUpdate.SessionCompletedPartUpdateMethod(partId);
-                        var completedPartsBytes = HttpContext.Session.Get("completedParts");
-                        SortedSet<int> completedParts = null;
-                        if (completedPartsBytes != null)
-                        {
-                            completedParts = JsonSerializer.Deserialize<SortedSet<int>>(completedPartsBytes);
-                        }
-                        else
-                        {
-                            completedParts = new SortedSet<int>();
-                        }
-                        completedParts.Add(int.Parse(partId));
-                        HttpContext.Session.Set("completedParts", JsonSerializer.SerializeToUtf8Bytes(completedParts));
+                        WorkWithServices(int.Parse(courseId), int.Parse(partId));
                         return true;
                     }
                 }
                 return false;
             }
             return false;
+        }
+        private async void WorkWithServices(int courseId, int partId)
+        {
+            var completedParts = _completedPartService
+                                .GetCompletedPartByIdUser(_userManager.GetUserId(HttpContext.User))
+                                .Result
+                                .Data
+                                .Where(x => x.CourseId == courseId);
+            var parts =  _practicalPartService
+                        .GetPracticalParts(courseId)
+                        .Result
+                        .Data;
+            if (completedParts.Count() == parts.Count())
+            {
+                _subscribedCourseService.DeleteSubscribedCourse(courseId, _userManager.GetUserId(HttpContext.User));
+                _completedCourseService.CreateCompletedCourse(courseId, _userManager.GetUserId(HttpContext.User));
+            }
         }
     }
 }

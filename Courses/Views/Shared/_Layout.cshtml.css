@@ -39,6 +39,10 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.body {
+    position:relative;
+    min-height:100%;
+}
 
 
 .footer {
@@ -56,3 +60,23 @@ button.accept-policy {
     padding: 0 15%;
 }
 
+/*.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+}*/
+
+
+
+.layout-link-button {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    outline: none;
+}

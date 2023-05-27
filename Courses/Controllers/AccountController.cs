@@ -12,11 +12,9 @@ namespace Courses.Controllers
 {
     public class AccountController : Controller
     {
-        //private readonly IAccountService _accountService;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ICompletedPartService _completedPartService;
-
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
                                 ICompletedPartService completedPartService)
         {
@@ -24,7 +22,6 @@ namespace Courses.Controllers
             _signInManager = signInManager;
             _completedPartService = completedPartService;
         }
-
 
         [HttpGet]
         public IActionResult Register() => View();
@@ -39,7 +36,7 @@ namespace Courses.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // установка куки
+                    await _userManager.AddToRoleAsync(user, "User");
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -50,7 +47,6 @@ namespace Courses.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-                //ModelState.AddModelError("",response.Description);
             }
             return View();
         }
@@ -68,16 +64,6 @@ namespace Courses.Controllers
                 await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    //SortedSet<int> idPCompletedParts = new SortedSet<int>();
-                    //var listofCompletedParts = await _completedPartService.GetCompletedPartBuIdUser(_userManager.GetUserId(HttpContext.User));
-                    //if (listofCompletedParts.StatusCode == Domain.Enum.StatusCode.OK)
-                    //{
-                    //    foreach (var el in listofCompletedParts.Data)
-                    //    {
-                    //        idPCompletedParts.Add(el.PracticalPartId);
-                    //    }
-                    //    HttpContext.Session.Set("completedParts", JsonSerializer.SerializeToUtf8Bytes(idPCompletedParts));
-                    //}
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
@@ -96,7 +82,6 @@ namespace Courses.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

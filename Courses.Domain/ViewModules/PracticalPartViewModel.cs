@@ -10,11 +10,8 @@ namespace Courses.Domain.ViewModules
     public class PracticalPartViewModel
     {
         public int CourseId { get; set; }
-
         public int Id { get; set; }
-
         public string Question { get; set; }
-
         public string Answer { get; set; }
     }
 }

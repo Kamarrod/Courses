@@ -13,31 +13,26 @@ namespace Courses.DAL.Repositories
     public class CompletedPartsRepository : IBaseRepository<CompletedPart>
     {
         private readonly ApplicationDbContext _db;
-
         public CompletedPartsRepository(ApplicationDbContext db)
         {
             _db = db;
         }
-
         public async Task<bool> Create(CompletedPart entity)
         {
             await _db.CompletedParts.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;
         }
-
         public async Task<bool> Delete(CompletedPart entity)
         {
             _db.CompletedParts.Remove(entity);
             await _db.SaveChangesAsync();
             return true;
         }
-
         public IQueryable<CompletedPart> GetAll()
         {
             return _db.CompletedParts;
         }
-
         public async Task<CompletedPart> Update(CompletedPart entity)
         {
             _db.CompletedParts.Update(entity);

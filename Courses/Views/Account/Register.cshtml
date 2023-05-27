@@ -1,54 +1,96 @@
-﻿@*@model Courses.Domain.ViewModules.Account.RegisterViewModel
+﻿@model Courses.Domain.ViewModules.Account.RegisterViewModel
+<div class="reg-body">
+<div class="registration-container">
+    <h3>Регистрация пользователя</h3>
+    <form method="post" asp-controller ="Account" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="Email">Email:</label><br />
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name">Имя:</label><br />
+            <input asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Пароль:</label><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PasswordConfirm">Подтверждение пароля:</label><br />
+            <input asp-for="PasswordConfirm" />
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Регистрация" class="submit-button" />
+        </div>
+        <div>
+            <a class="login-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+        </div>
+    </form>
+</div>
+</div>
 
-@{
-    Layout = "_Layout";
-    ViewBag.Title = "Регистрация";
-}
 
-<form asp-controller="Account" asp-action="Register">
-    <label for="login">Логин:</label>
-    <input asp-for="Name" class="form-control textbox-dg font-weight-bold text-center" placeholder="Имя" type="text"><br><br>
+<style>
+    .reg-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: white;
+    }
 
-    <label for="password">Пароль:</label>
-    <input autocomplete="new-password" asp-for="Password" placeholder="Пароль" class="form-control textbox-dg font-weight-bold text-center" type="password"><br><br>
+    .registration-container {
+        max-width: 400px;
+        min-width:30%;
+        padding: 20px;
+        align-content:center;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
 
-    <label for="confirm-password">Подтверждение пароля:</label>
-    <input autocomplete="new-password" asp-for="PasswordConfirm" placeholder="Подтвердите пароль" class="form-control textbox-dg font-weight-bold text-center" type="password"><br><br>
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-    <input type="submit" value="Зарегистрироваться">
-</form>
-<div>
-    <a class="Login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-</div>*@
+    label {
+        font-weight: bold;
+    }
 
-@model Courses.Domain.ViewModules.Account.RegisterViewModel
-<h2>Регистрация нового пользователя</h2>
-<form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label asp-for="Name"></label><br />
-        <input asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" />
-        <span asp-validation-for="PasswordConfirm"></span>
-    </div>
-    <div>
-        <input type="submit" value="Регистрация" />
-    </div>
-    <div>
-        <a class="Login" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-    </div>
-</form>
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        width: 100%;
+        box-sizing: border-box; /* Added */
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        background: linear-gradient( to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1) );
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .submit-button:hover {
+            background: linear-gradient( to right, rgba(143, 211, 244, 1), rgba(132, 250, 176, 1) );
+        }
+
+    .login-link {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: #555;
+        text-decoration: none;
+    }
+</style>

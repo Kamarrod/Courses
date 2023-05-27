@@ -13,12 +13,10 @@ namespace Courses.Service.Implementations
     public class CourseService : ICourseService
     {
         private readonly ICourseRepository _courseRepository;
-
         public CourseService(ICourseRepository courseRepository)
         {
             _courseRepository = courseRepository;
         }
-
         public async Task<IBaseResponse<CourseViewModel>> CreateCourse(CourseViewModel courseViewModule)
         {
             var baseResponse = new BaseResponse<CourseViewModel> ();
@@ -33,7 +31,7 @@ namespace Courses.Service.Implementations
                     Theory = courseViewModule.Theory,
                     AuthorId = courseViewModule.AuthorId,
                     TypeCourse = (TypeCourse)Convert.ToInt32(courseViewModule.TypeCourse),
-                    ////PracticalParts = courseViewModule.PracticalParts.ToList()
+                    VideoURL = courseViewModule.VideoURL,
                 };
                 await _courseRepository.Create(course);
             }
@@ -47,14 +45,12 @@ namespace Courses.Service.Implementations
             }
             return baseResponse;
         }
-
         public async Task<IBaseResponse<bool>> DeleteCourse(int id)
         {
             var baseResponse = new BaseResponse<bool>();
 
             try
             {
-                //var course = await _courseRepository.GetAsync(id);
                 var course = await _courseRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
                 if (course == null)
                 {
@@ -75,8 +71,6 @@ namespace Courses.Service.Implementations
                 };
             }
         }
-
-
         public async Task<IBaseResponse<IEnumerable<Course>>> GetCoursesWithSimilarName(string name)
         {
             var baseResponse = new BaseResponse<IEnumerable<Course>>();
@@ -103,13 +97,12 @@ namespace Courses.Service.Implementations
                 };
             }
         }
-        public async Task<IBaseResponse<Course>> GetCourseByName(string name) // возможно лучше возвращать IEnumerable
+        public async Task<IBaseResponse<Course>> GetCourseByName(string name)
         {
             var baseResponse = new BaseResponse<Course>();
 
             try
             {
-                //var course = await _courseRepository.GetByNameAsync(name);
                 var course = await _courseRepository.GetAll().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
                 if (course == null)
                 {
@@ -130,14 +123,12 @@ namespace Courses.Service.Implementations
             }
 
         }
-
         public async Task<IBaseResponse<CourseViewModel>> GetCourse(int id)
         {
             var baseResponse = new BaseResponse<CourseViewModel>();
 
             try
             {
-                //var course = await _courseRepository.GetAsync(id);
                 var course = await _courseRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
                 if (course == null)
                 {
@@ -151,10 +142,10 @@ namespace Courses.Service.Implementations
                     Name = course.Name,
                     AuthorId = course.AuthorId,
                     Theory = course.Theory,
-                    //PracticalParts = course.PracticalParts.ToList(),
                     CreatedDate = DateTime.Now,//course.CreatedDate,
                     Description = course.Description,
                     TypeCourse = course.TypeCourse.ToString(),
+                    VideoURL = course.VideoURL,
                 };
                 baseResponse.Data = data;
                 baseResponse.StatusCode = StatusCode.OK;
@@ -176,7 +167,6 @@ namespace Courses.Service.Implementations
 
             try
             {
-                //var courses = await _courseRepository.Select();
                 var courses = await _courseRepository.GetAll().ToListAsync();
 
                 if (courses.Count == 0)
@@ -186,10 +176,6 @@ namespace Courses.Service.Implementations
                     return baseResponse;
                 }
 
-                //foreach(var course in courses)
-                //{
-                //    course.PracticalParts = await _courseRepository.GetPracticalParts(course.Id);
-                //}
 
                 baseResponse.Data = courses;
                 baseResponse.StatusCode = StatusCode.OK;
@@ -204,7 +190,6 @@ namespace Courses.Service.Implementations
                 };
             }
         }
-
         public async Task<IBaseResponse<IEnumerable<Course>>> GetAuthorCourses(string authorId)
         {
             var baseResponse = new BaseResponse<IEnumerable<Course>>();
@@ -233,18 +218,9 @@ namespace Courses.Service.Implementations
             }
         }
 
-        //public async Task<IBaseResponse<IEnumerable<PracticalPart>>> GetPracticalPart(CourseViewModel model)
-        //{
-        //    var baseResponse = new BaseResponse<IEnumerable<PracticalPart>>();
-        //    baseResponse.Data = model.PracticalParts;
-        //    baseResponse.StatusCode = StatusCode.OK;
-        //    return baseResponse;
-        //}
-
         public async Task<IBaseResponse<Course>> Edit(int id, CourseViewModel model)
         {
             var baseResponse = new BaseResponse<Course>();
-
             try
             {
                 var course = await _courseRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
@@ -256,12 +232,13 @@ namespace Courses.Service.Implementations
                 }
 
                 course.Description = model.Description;
-                course.CreatedDate = DateTime.Now;//model.CreatedDate;
+                course.CreatedDate = DateTime.Now;
                 course.AuthorId = model.AuthorId;
                 course.Theory = model.Theory;
                 course.Name = model.Name;
                 course.PracticalParts = await _courseRepository.GetPracticalParts(id);
-                //course.TypeCourse = (TypeCourse)Convert.ToInt32(model.TypeCourse);
+                course.TypeCourse = (TypeCourse)Convert.ToInt32(model.TypeCourse);
+                course.VideoURL = model.VideoURL;
                 course.PracticalParts = model.PracticalParts.ToList();
                 baseResponse.StatusCode = StatusCode.OK;
                 await _courseRepository.Update(course);

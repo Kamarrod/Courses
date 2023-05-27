@@ -1,7 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-
 namespace Сourses.Domain.Enum
 {
     public enum TypeCourse
@@ -18,6 +17,8 @@ namespace Сourses.Domain.Enum
         History = 5,
         [Display(Name = "География")]
         Geography = 6,
-       
+        [Display(Name = "Языки")]
+        Languages = 7,
+
     }
 }

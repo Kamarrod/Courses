@@ -15,11 +15,8 @@ namespace Courses.Service.Interfaces
         Task<IBaseResponse<IEnumerable<PracticalPart>>> GetPracticalParts(int courseId);
         Task<IBaseResponse<bool>> DeletePracticalPart(int courseId, int number);
         Task<IBaseResponse<PracticalPartViewModel>> CreatePracticalPart(PracticalPartViewModel courseViewModule);
-        //Task<IBaseResponse<PracticalPart>> GetCourseByName(string name);
         Task<IBaseResponse<PracticalPart>> GetPracticalPart(int courseId, int number);
-
         Task<IBaseResponse<PracticalPart>> Edit(int courseId, int number, PracticalPartViewModel model);
-
         Task<IBaseResponse<bool>> CheckAnswer(int courseId, int partId, string answer);
     }
 }

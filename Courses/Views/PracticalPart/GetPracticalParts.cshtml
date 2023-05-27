@@ -1,13 +1,25 @@
-﻿@using System.Text.Json;
+﻿@using System.Security.Claims;
+@using Courses.Domain.Entity;
+@using Courses.Service.Interfaces;
+@using Microsoft.AspNetCore.Identity;
+@using System.Text.Json;
 @model IEnumerable<Сourses.Domain.Entity.PracticalPart>
+@inject UserManager<User> UserManager
 @inject IHttpContextAccessor HttpContextAccessor
+@inject ICompletedPartService _completedPartService
     
 @{
     ViewData["Title"] = "Практическая часть";
-    var completedPartsBytes = HttpContextAccessor.HttpContext.Session.Get("completedParts");
-    SortedSet<int> completedParts = null;
-    if (completedPartsBytes != null)
-        completedParts = JsonSerializer.Deserialize<SortedSet<int>>(completedPartsBytes);
+
+
+    var completedPartsList = _completedPartService
+                        .GetCompletedPartByIdUser(UserManager.GetUserId(HttpContextAccessor.HttpContext.User))
+                        .Result
+                        .Data;
+    var completedParts = new SortedSet<int>();
+    if (completedPartsList != null)
+        foreach (var el in completedPartsList)
+            completedParts.Add(el.PracticalPartId);
 
 }
 
@@ -49,11 +61,15 @@
     var answerInputs = document.querySelectorAll('input[id^="answer"]');
     answerInputs.forEach(function (input) {
         input.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) { // если нажата клавиша Enter
-                event.preventDefault(); // отменяем стандартное поведение формы
-                var answer = input.value; // получаем значение поля ввода ответа
+            // если нажата клавиша Enter
+            if (event.keyCode === 13) {
+                // отменяем стандартное поведение формы
+                event.preventDefault();
+                // получаем значение поля ввода ответа
+                var answer = input.value;
                 var partId = input.getAttribute('data-question-id');
-                var courseId = input.getAttribute('data-course-id');// получаем id вопроса
+                // получаем id вопроса
+                var courseId = input.getAttribute('data-course-id');
                 // отправляем запрос на сервер для проверки данных
                 $.ajax({
                     url: "/PracticalPart/CheckAnswer",
@@ -61,12 +77,16 @@
                     data: { partId: partId, answer: answer, courseId: courseId },
                     success: function (result) {
                         if (result) {
-                            input.classList.remove("is-invalid"); // удаляем класс "is-invalid" (красный цвет)
-                            input.classList.add("is-valid"); // добавляем класс "is-valid" (зеленый цвет)
+                            // удаляем класс "is-invalid" (красный цвет)
+                            input.classList.remove("is-invalid"); 
+                            // добавляем класс "is-valid" (зеленый цвет)
+                            input.classList.add("is-valid");
                             input.setAttribute("disabled", true);
                         } else {
-                            input.classList.remove("is-valid"); // удаляем класс "is-valid" (зеленый цвет)
-                            input.classList.add("is-invalid"); // добавляем класс "is-invalid" (красный цвет)
+                            // удаляем класс "is-valid" (зеленый цвет)
+                            input.classList.remove("is-valid");
+                            // добавляем класс "is-invalid" (красный цвет)
+                            input.classList.add("is-invalid");
                         }
                     }
                 });
@@ -74,3 +94,38 @@
         });
     });
 </script>
+
+
+<style>
+
+.course {
+    margin-top: 1%;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.form-control {
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+</style>

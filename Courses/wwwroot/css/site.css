@@ -17,13 +17,11 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 0;
-}
 
 .Acontainer {
     min-width: 70%;
     margin-left:15%;
+    margin-right:15%;
     min-height: calc(100vh - 181px);
     padding-bottom: 180px;
 }
@@ -38,3 +36,17 @@ body {
     padding: 0 15%;
 }
 
+
+.body {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}

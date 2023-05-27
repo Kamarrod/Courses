@@ -9,8 +9,6 @@ namespace Courses.DAL.Interfaces
 {
     public interface ICourseRepository : IBaseRepository<Course>
     {
-        //Task<Course> GetAsync(int id);
-        //Task<Course> GetByNameAsync(string name);
         Task<List<PracticalPart>> GetPracticalParts(int id);
     }
 }

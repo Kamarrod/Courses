@@ -1,11 +1,19 @@
-﻿@model Courses.Domain.ViewModules.Course.CourseViewModel
+﻿@using System.Security.Claims;
+@using Courses.Domain.Entity;
+@using Microsoft.AspNetCore.Identity;
+@using System.Text.Json;
+@model Courses.Domain.ViewModules.Course.CourseViewModel
+@inject IHttpContextAccessor HttpContextAccessor
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = Model.Name;
 }
-
-<div class="course">
-<h1>Теория курса</h1>
+<h1 align="center">Теория курса</h1>
 <p>@Model.Theory</p>
-    <a asp-action="GetPracticalParts" asp-controller="PracticalPart" asp-route-courseId="@Model.Id"><button>Перейти к практике</button></a>
-</div>
+    @if (Model.VideoURL != null)
+    {
+    <a asp-action="ShowVideo" asp-controller="ActionWithYouTube" asp-route-url="@Model.VideoURL"><button align="center" class="btn btn-primary">Перейти к видео</button></a>
+    }
+<a asp-action="GetPracticalParts" asp-controller="PracticalPart" asp-route-courseId="@Model.Id"><button align="center" class="btn btn-primary">Перейти к практике</button></a>

@@ -16,13 +16,11 @@ namespace Courses.Service.Implementations
     public class CompletedPartService : ICompletedPartService
     {
         protected readonly IBaseRepository<CompletedPart> _completedPartRepository;
-
         public CompletedPartService(IBaseRepository<CompletedPart> completedPartRepository)
         {
             _completedPartRepository = completedPartRepository;
         }
-
-        public async Task<IBaseResponse<bool>> CreateComletedPart(int idPart, string idUser)
+        public async Task<IBaseResponse<bool>> CreateComletedPart(int idPart, string idUser, int idCourse)
         {
             var baseResponse = new BaseResponse<bool>();
             try
@@ -31,6 +29,7 @@ namespace Courses.Service.Implementations
                 {
                     UserId = idUser,
                     PracticalPartId = idPart,
+                    CourseId = idCourse,
                 };
                 baseResponse.StatusCode = StatusCode.OK;
                 await _completedPartRepository.Create(completedPart);
@@ -45,8 +44,7 @@ namespace Courses.Service.Implementations
                 };
             }
         }
-
-        public async Task<IBaseResponse<List<CompletedPart>>> GetCompletedPartBuIdUser(string idUser)
+        public async Task<IBaseResponse<List<CompletedPart>>> GetCompletedPartByIdUser(string idUser)
         {
             var baseResponse = new BaseResponse<List<CompletedPart>>();
             try
@@ -67,6 +65,27 @@ namespace Courses.Service.Implementations
                 return new BaseResponse<List<CompletedPart>>()
                 {
                     Description = $"[GetCopletedPartBuIdUser] : {ex.Message}",
+                    StatusCode = StatusCode.InternalStatusError
+                };
+            }
+        }
+        public async Task<IBaseResponse<int>> GetCountCompletedPartsCourse(int courseId, string idUser)
+        {
+            var baseResponse = new BaseResponse<int>();
+            try
+            {
+                var completedPart = await _completedPartRepository.GetAll().Where(x => x.CourseId == courseId && x.UserId == idUser).ToListAsync();
+                if (completedPart != null)
+                    baseResponse.Data = completedPart.Count();
+                else baseResponse.Data = 0;
+                baseResponse.StatusCode = StatusCode.OK;
+                return baseResponse;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<int>()
+                {
+                    Description = $"[GetCountCompletedPartsCourse] : {ex.Message}",
                     StatusCode = StatusCode.InternalStatusError
                 };
             }

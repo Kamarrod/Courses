@@ -1,0 +1,18 @@
+﻿@model Courses.Domain.ViewModules.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1>Произошла ошибка</h1>
+    <p>На сайте что-то пошло не так. Приносим извинения за неудобства.</p>
+    <p>Дополнительная информация об ошибке:</p>
+    <ul>
+    @if (Model != null)
+    {
+        <li>Код ошибки: <span id="error-code">@Model.statusCode</span></li>
+        <li>Описание ошибки: <span id="error-description">@Model.Desctiption</span></li>
+    } else
+    {
+        <h1> Неизвестная ошибка</h1>
+    }
+    </ul>

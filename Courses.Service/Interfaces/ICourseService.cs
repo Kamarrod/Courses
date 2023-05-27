@@ -14,11 +14,8 @@ namespace Courses.Service.Interfaces
         Task<IBaseResponse<Course>> GetCourseByName(string name);
         Task<IBaseResponse<CourseViewModel>> GetCourse(int id);
         Task<IBaseResponse<IEnumerable<Course>>> GetCoursesWithSimilarName(string name);
-
         BaseResponse<Dictionary<int, string>> GetTypes();
         Task<IBaseResponse<Course>> Edit(int id, CourseViewModel model);
-
-        //Task<IBaseResponse<IEnumerable<PracticalPart>>> GetPracticalPart(CourseViewModel model);
 
     }
 }

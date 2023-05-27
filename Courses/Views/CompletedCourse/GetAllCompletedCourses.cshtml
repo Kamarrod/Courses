@@ -1,0 +1,40 @@
+﻿@using System.Security.Claims;
+@using Courses.Domain.Entity;
+@using Microsoft.AspNetCore.Identity;
+@using System.Text.Json;
+@model IEnumerable<Сourses.Domain.Entity.Course>
+@inject IHttpContextAccessor HttpContextAccessor
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Список Курсов";
+}
+@if (Model == null || Model.Count() == 0)
+{
+    <h1>На данный момент у вас нет завершенных курсов</h1>
+}
+else
+foreach(var course in Model)
+{
+    <div class=" card-container">
+        <div class="card w-75">
+            <div class="card-body">
+                <h5 class="card-title">@course.Name</h5>
+                <p class="card-text">
+                    @course.Description
+                </p>
+                <a asp-controller="Course" asp-action="GetCourse" asp-route-Id="@course.Id" class="btn btn-primary">Перейти к курсу</a>
+            </div>
+
+        </div>
+        </div>
+}
+
+
+
+<style>
+
+    .card-container {
+        margin-top:1%;
+    }
+</style>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Сourses.Domain.Entity;
 
 namespace Courses.Service.Interfaces
 {
@@ -12,7 +13,7 @@ namespace Courses.Service.Interfaces
     {
         Task<IBaseResponse<bool>> CreateSubscribedCourse(int idCourse, string idUser);
         Task<IBaseResponse<List<SubscribedCourse>>> GetSubscribedCourseByIdUser(string idUser);
-
         Task<IBaseResponse<bool>> DeleteSubscribedCourse(int idCourse, string idUser);
+        Task<IBaseResponse<List<Course>>> GetSubscribedCourse(string idUser);
     }
 }

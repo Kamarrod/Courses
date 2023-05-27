@@ -39,6 +39,10 @@ button.accept-policy[b-kpg9lrsrl6] {
   line-height: inherit;
 }
 
+.body[b-kpg9lrsrl6] {
+    position:relative;
+    min-height:100%;
+}
 
 
 .footer[b-kpg9lrsrl6] {
@@ -56,3 +60,23 @@ button.accept-policy[b-kpg9lrsrl6] {
     padding: 0 15%;
 }
 
+/*.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+}*/
+
+
+
+.layout-link-button[b-kpg9lrsrl6] {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    outline: none;
+}

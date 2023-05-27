@@ -1,0 +1,63 @@
+﻿body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f1f1f1;
+      }
+
+      .registration-container {
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="email"] {
+        width: 100%;
+        box-sizing: border-box; /* Added */
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        background: linear-gradient(
+          to right,
+          rgba(132, 250, 176, 1),
+          rgba(143, 211, 244, 1)
+        );
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .submit-button:hover {
+        background: linear-gradient(
+          to right,
+          rgba(143, 211, 244, 1),
+          rgba(132, 250, 176, 1)
+        );
+      }
+
+      .login-link {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: #555;
+        text-decoration: none;
+      }
